@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql
+    container_name: VollMedDB
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vollmed
+
+    ports:
+      - "3306:3306"  # Map container's 3306 port to host's 3306 port
