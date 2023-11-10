@@ -19,6 +19,7 @@ public class DoctorJPA {
     private Long id;
     private String name;
     private String email;
+    private String phone;
     private String crm;
 
     @Enumerated(EnumType.STRING)
@@ -31,6 +32,7 @@ public class DoctorJPA {
 
         this.name = doctor.name();
         this.email = doctor.email();
+        this.phone = doctor.phone();
         this.crm = doctor.crm();
         this.specialties = doctor.specialties();
         this.address = new AddressJPA(doctor.address());
