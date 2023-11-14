@@ -2,6 +2,7 @@ package med.voll.api.doctor;
 
 import med.voll.api.address.AddressJPA;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class DoctorJPA {
     @Embedded
     private AddressJPA address;
 
-    public DoctorJPA(DoctorDTO doctor) {
+    public DoctorJPA(NewDoctorDTO doctor) {
 
         this.name = doctor.name();
         this.email = doctor.email();
@@ -37,5 +38,18 @@ public class DoctorJPA {
         this.specialties = doctor.specialties();
         this.address = new AddressJPA(doctor.address());
         
+    }
+
+    public void update(@Valid UpdateDoctorDTO doctor) {
+
+        if (doctor.name() != null) {
+            this.name = doctor.name();
+        }
+        if (doctor.phone() != null) {
+            this.phone = doctor.phone();
+        }
+        if (doctor.address() != null) {
+            this.address.update(doctor.address());
+        }
     }
 }

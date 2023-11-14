@@ -27,7 +27,7 @@ public class PatientJPA {
     @Embedded
     private AddressJPA address;
 
-    public PatientJPA(@Valid PatientDTO patient) {
+    public PatientJPA(@Valid NewPatientDTO patient) {
 
         this.name = patient.name();
         this.email = patient.email();

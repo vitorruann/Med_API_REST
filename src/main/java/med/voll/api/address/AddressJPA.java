@@ -30,4 +30,30 @@ public class AddressJPA {
         this.complement = address.complement();
 
     }
+
+    public void update(AddressDTO address) {
+        
+        if (address.publicArea() != null) {
+            this.publicArea = address.publicArea();
+        }
+        if (address.neighborhood() != null) {
+            this.neighborhood = address.neighborhood();
+        }
+        if (address.cep() != null) {
+            this.cep = address.cep();
+        }
+        if (address.uf() != null) {
+            this.uf = address.uf();
+        }
+        if (address.city() != null) {
+            this.city = address.city();
+        }
+        if (address.number() != null) {
+            this.number = address.number();
+        }
+        if (address.complement() != null) {
+            this.complement = address.complement();
+        }
+
+    }
 }
