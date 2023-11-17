@@ -29,6 +29,8 @@ public class DoctorJPA {
     @Embedded
     private AddressJPA address;
 
+    private Boolean active;
+
     public DoctorJPA(NewDoctorDTO doctor) {
 
         this.name = doctor.name();
@@ -37,6 +39,7 @@ public class DoctorJPA {
         this.crm = doctor.crm();
         this.specialties = doctor.specialties();
         this.address = new AddressJPA(doctor.address());
+        this.active = true;
         
     }
 
@@ -51,5 +54,9 @@ public class DoctorJPA {
         if (doctor.address() != null) {
             this.address.update(doctor.address());
         }
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }

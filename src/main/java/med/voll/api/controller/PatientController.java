@@ -4,18 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.patient.NewPatientDTO;
-import med.voll.api.patient.PatientJPA;
-import med.voll.api.patient.PatientRepository;
-import med.voll.api.patient.ShowPatientDTO;
+import med.voll.api.patient.*;
 
 @RestController
 @RequestMapping("/patients")
@@ -32,6 +25,20 @@ public class PatientController {
 
     @GetMapping
     public Page<ShowPatientDTO> showPatient(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
-        return repository.findAll(pageable).map(ShowPatientDTO::new);
+        return repository.findAllByActiveTrue(pageable).map(ShowPatientDTO::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void updatePatient(@RequestBody @Valid UpdatePatientDTO patient) {
+        var oldPatient = repository.getReferenceById(patient.id());
+        oldPatient.update(patient);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deletePatient(@PathVariable Long id) {
+        var doctro = repository.getReferenceById(id);
+        doctro.delete();
     }
 }

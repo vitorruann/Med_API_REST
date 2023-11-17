@@ -27,6 +27,8 @@ public class PatientJPA {
     @Embedded
     private AddressJPA address;
 
+    private Boolean active;
+
     public PatientJPA(@Valid NewPatientDTO patient) {
 
         this.name = patient.name();
@@ -35,5 +37,21 @@ public class PatientJPA {
         this.cpf = patient.cpf();
         this.address = new AddressJPA(patient.address());
 
+    }
+
+    public void update(@Valid UpdatePatientDTO patient) {
+        if (patient.name() != null) {
+            this.name = patient.name();
+        }
+        if (patient.phone() != null) {
+            this.phone = patient.phone();
+        }
+        if (patient.address() != null) {
+            this.address.update(patient.address());
+        }
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }
