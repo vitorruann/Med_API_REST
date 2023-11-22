@@ -13,3 +13,6 @@ spring:
         web:
             pageable:
                 size-parameter: pageSize
+server:
+    error:
+        include-stacktrace: never

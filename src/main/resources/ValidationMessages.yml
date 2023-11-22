@@ -1,0 +1,14 @@
+name:
+    not-blank: O campo "Nome" é obrigatório
+email:
+    not-blank: O campo "Email" é obrigatório
+    invalid: Formato do campo "Email" inválido
+phone:
+    not-blank: O campo "Telefone" é obrigatório
+crm:
+    not-blank: O campo "CRM" é obrigatório
+    invalid: Formato do campo "CRM" inválido
+specialties:
+    not-blank: O campo "Especialidades" é obrigatório
+address:
+    not-blank: Os dados do "Endereço" são obrigatórios
