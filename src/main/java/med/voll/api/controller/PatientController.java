@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import med.voll.api.patient.*;
+import med.voll.api.domain.patient.*;
 
 @RestController
 @RequestMapping("/patients")

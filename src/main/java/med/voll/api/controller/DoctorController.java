@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import med.voll.api.doctor.*;
+import med.voll.api.domain.doctor.*;
 
 @RestController
 @RequestMapping("/doctors")
@@ -21,7 +21,7 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DoctorDTO> newDoctor(@RequestBody @Valid NewDoctorDTO doctor, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DoctorDTO> storeDoctor(@RequestBody @Valid NewDoctorDTO doctor, UriComponentsBuilder uriBuilder) {
         var newDoctor = new DoctorJPA(doctor);
         repository.save(newDoctor);
 
@@ -37,6 +37,13 @@ public class DoctorController {
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorDTO> showDoctorById(@PathVariable Long id) {
+        var doctor = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new DoctorDTO(doctor));
+    }
+
     @PutMapping
     @Transactional
     public ResponseEntity<DoctorDTO> updateDoctor(@RequestBody @Valid UpdateDoctorDTO doctor) {
@@ -48,7 +55,7 @@ public class DoctorController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<String> destroyDoctor(@PathVariable Long id) {
         var doctor = repository.getReferenceById(id);
         doctor.delete();
 

@@ -1,6 +1,6 @@
-package med.voll.api.doctor;
+package med.voll.api.domain.doctor;
 
-import med.voll.api.address.AddressJPA;
+import med.voll.api.domain.address.AddressJPA;
 
 public record DoctorDTO(Long id, String name, String email, String phone, String crm, Specialties specialties, AddressJPA address) {
 

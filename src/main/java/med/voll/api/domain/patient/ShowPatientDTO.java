@@ -1,4 +1,4 @@
-package med.voll.api.patient;
+package med.voll.api.domain.patient;
 
 public record ShowPatientDTO(Long id, String name, String cpf, String email) {
 
