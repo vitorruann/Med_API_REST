@@ -1,9 +1,14 @@
 package med.voll.api.controller;
 
+import java.net.Authenticator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +21,7 @@ import med.voll.api.domain.user.UserJPA;
 import med.voll.api.domain.user.UserRepository;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/sign")
 public class AuthenticationController {
 
     @Autowired
@@ -24,7 +29,7 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
-    @PostMapping
+    @PostMapping("/in")
     public ResponseEntity<String> signIn(@RequestBody @Valid UserDTO user) {
         var token = new UsernamePasswordAuthenticationToken(user.login(), user.password());
         var authentication = manager.authenticate(token);
@@ -35,11 +40,7 @@ public class AuthenticationController {
     @PostMapping("/up")
     @Transactional
     public ResponseEntity<String> signUp(@RequestBody @Valid UserDTO user) {
-        var newUser = new UserJPA(user);
-        System.out.println(newUser.getPassword());
-        System.out.println(newUser.getUsername());
-
-        // repository.save(newUser);
+        repository.save(new UserJPA(user));
 
         return ResponseEntity.ok().build();
     }
