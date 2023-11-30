@@ -19,6 +19,8 @@ import jakarta.validation.Valid;
 import med.voll.api.domain.user.UserDTO;
 import med.voll.api.domain.user.UserJPA;
 import med.voll.api.domain.user.UserRepository;
+import med.voll.api.system.security.TokenDTO;
+import med.voll.api.system.security.TokenService;
 
 @RestController
 @RequestMapping("/sign")
@@ -26,15 +28,20 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager manager;
+    
     @Autowired
     private UserRepository repository;
 
-    @PostMapping("/in")
-    public ResponseEntity<String> signIn(@RequestBody @Valid UserDTO user) {
-        var token = new UsernamePasswordAuthenticationToken(user.login(), user.password());
-        var authentication = manager.authenticate(token);
+    @Autowired
+    TokenService tokenService;
 
-        return ResponseEntity.ok().build();
+    @PostMapping("/in")
+    public ResponseEntity<TokenDTO> signIn(@RequestBody @Valid UserDTO user) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(user.login(), user.password());
+        var authentication = manager.authenticate(authenticationToken);
+
+        var tokenJWT = tokenService.newToken((UserJPA) authentication.getPrincipal());
+        return ResponseEntity.ok(new TokenDTO(tokenJWT));
     }
 
     @PostMapping("/up")

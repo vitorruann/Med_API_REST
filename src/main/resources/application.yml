@@ -16,3 +16,13 @@ spring:
 server:
     error:
         include-stacktrace: never
+
+api:
+    data:
+        time-zone: "-03:00"
+        expiration:
+            extra-hours: 2
+    security:
+        token:
+            secret: ${JWT_SECRET:12345678}
+            issuer: ${JWT_ISSUER:API Voll.me}
