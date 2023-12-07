@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import med.voll.api.domain.doctor.Specialties;
 
 public record NewScheduleDTO(
 
@@ -17,7 +18,9 @@ public record NewScheduleDTO(
     @NotNull
     @Future
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    LocalDateTime date
+    LocalDateTime date,
+
+    Specialties specialtie
     
     ) {
 }
