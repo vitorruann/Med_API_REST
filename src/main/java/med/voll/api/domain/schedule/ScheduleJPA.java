@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.domain.doctor.DoctorJPA;
+import med.voll.api.domain.patient.PatientJPA;
 
 @Table(name= "schedules")
 @Entity(name= "Schedule")
@@ -18,8 +20,15 @@ public class ScheduleJPA {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long idDoctor;
-    private Long idPatient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private DoctorJPA doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private PatientJPA patient;
+    
     private LocalDateTime date;
     
 }
