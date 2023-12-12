@@ -10,10 +10,10 @@ import med.voll.api.domain.doctor.Specialties;
 
 public record NewScheduleDTO(
 
-    Long doctorId,
+    Long idDoctor,
 
     @NotNull 
-    Long patientId, 
+    Long idPatient, 
     
     @NotNull
     @Future

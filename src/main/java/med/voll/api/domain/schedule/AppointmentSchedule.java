@@ -1,5 +1,7 @@
 package med.voll.api.domain.schedule;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,7 @@ import med.voll.api.domain.ValidationExepition;
 import med.voll.api.domain.doctor.DoctorJPA;
 import med.voll.api.domain.doctor.DoctorRepository;
 import med.voll.api.domain.patient.PatientRepository;
+import med.voll.api.domain.schedule.validations.ValidatorSchedule;
 
 @Service
 public class AppointmentSchedule {
@@ -18,27 +21,31 @@ public class AppointmentSchedule {
     private DoctorRepository doctorRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private List<ValidatorSchedule> validators;
     
     public void schedule(NewScheduleDTO scheduleDTO) {
-        if (scheduleDTO.doctorId() != null && !doctorRepository.existsById(scheduleDTO.patientId())) {
+        if (scheduleDTO.idDoctor() != null && !doctorRepository.existsById(scheduleDTO.idPatient())) {
             throw new ValidationExepition("Médico informado não existe!");
         }
 
-        if (!patientRepository.existsById(scheduleDTO.patientId())) {
+        if (!patientRepository.existsById(scheduleDTO.idPatient())) {
             throw new ValidationExepition("Paciente informado não existe!");
         }
 
+        validators.forEach(v -> v.validate(scheduleDTO));
+
         var doctor = findDoctor(scheduleDTO);
-        var patient = patientRepository.getReferenceById(scheduleDTO.patientId());
+        var patient = patientRepository.getReferenceById(scheduleDTO.idPatient());
 
         var schedule = new ScheduleJPA(null, doctor, patient, scheduleDTO.date());
 
-        scheduleRepository.save(null);
+        scheduleRepository.save(schedule);
     }
 
     private DoctorJPA findDoctor(NewScheduleDTO scheduleDTO) {
-        if (scheduleDTO.doctorId() != null) {
-            return doctorRepository.getReferenceById(scheduleDTO.doctorId());
+        if (scheduleDTO.idPatient() != null) {
+            return doctorRepository.getReferenceById(scheduleDTO.idDoctor());
         }
 
         if (scheduleDTO.specialtie() == null) {
