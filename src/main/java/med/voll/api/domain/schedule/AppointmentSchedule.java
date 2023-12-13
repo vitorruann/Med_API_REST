@@ -24,8 +24,8 @@ public class AppointmentSchedule {
     @Autowired
     private List<ValidatorSchedule> validators;
     
-    public void schedule(NewScheduleDTO scheduleDTO) {
-        if (scheduleDTO.idDoctor() != null && !doctorRepository.existsById(scheduleDTO.idPatient())) {
+    public ScheduleDTO schedule(NewScheduleDTO scheduleDTO) {
+        if (scheduleDTO.idDoctor() != null && !doctorRepository.existsById(scheduleDTO.idDoctor())) {
             throw new ValidationExepition("Médico informado não existe!");
         }
 
@@ -36,11 +36,17 @@ public class AppointmentSchedule {
         validators.forEach(v -> v.validate(scheduleDTO));
 
         var doctor = findDoctor(scheduleDTO);
+        if (doctor == null) {
+            throw new ValidationExepition("Não existe médico disponível nessa data");
+        }
+
         var patient = patientRepository.getReferenceById(scheduleDTO.idPatient());
 
         var schedule = new ScheduleJPA(null, doctor, patient, scheduleDTO.date());
 
         scheduleRepository.save(schedule);
+        
+        return new ScheduleDTO(schedule);
     }
 
     private DoctorJPA findDoctor(NewScheduleDTO scheduleDTO) {

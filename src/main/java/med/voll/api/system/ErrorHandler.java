@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
+import med.voll.api.domain.ValidationExepition;
+import med.voll.api.domain.schedule.validations.ValidatorSchedule;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -28,6 +30,12 @@ public class ErrorHandler {
         var errors = exception.getFieldErrors();
         
         return ResponseEntity.badRequest().body(errors.stream().map(ErrorValidationDTO::new).toList());
+    }
+
+    @ExceptionHandler(ValidationExepition.class)
+    public ResponseEntity<String> errorHandlerBusinessRules(ValidationExepition exception) {
+        
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

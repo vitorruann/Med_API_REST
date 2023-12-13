@@ -24,8 +24,8 @@ public class ScheduleController {
     @Transactional
     public ResponseEntity<ScheduleDTO> storeSchedule(@RequestBody @Valid NewScheduleDTO schedule) {
 
-        appointmentSchedule.schedule(schedule);
+        var dto =appointmentSchedule.schedule(schedule);
 
-        return ResponseEntity.ok(new ScheduleDTO(null, null, null, null));
+        return ResponseEntity.ok(dto);
     }
 }

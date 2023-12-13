@@ -17,7 +17,7 @@ public record NewScheduleDTO(
     
     @NotNull
     @Future
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    // @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     LocalDateTime date,
 
     Specialties specialtie
