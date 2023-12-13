@@ -16,7 +16,7 @@ public class ValidatorDoctorAvailable implements ValidatorSchedule {
     public void validate(NewScheduleDTO schedule) {
 
         var isDoctorAvailable = scheduleRepository.existsByDoctorIdAndDate(schedule.idDoctor(), schedule.date());
-        if (!isDoctorAvailable) {
+        if (isDoctorAvailable) {
             throw new ValidationExepition("Médico não disponível neste horário");
         }
 

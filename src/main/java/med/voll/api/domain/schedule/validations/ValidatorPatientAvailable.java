@@ -21,7 +21,7 @@ public class ValidatorPatientAvailable implements ValidatorSchedule {
         var operatingTime = schedule.date().withHour(OPENNING_TIME);
         var closingTime = schedule.date().withHour(CLOSING_TIME);
         var isPatientAvailable = scheduleRepository.existsByPatientIdAndDateBetween(schedule.idPatient(), operatingTime, closingTime);
-        if (!isPatientAvailable) {
+        if (isPatientAvailable) {
             throw new ValidationExepition("Paciente já possui uma consulta neste mesmo horário");
         }
 
