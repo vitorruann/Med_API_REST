@@ -36,6 +36,7 @@ public class PatientJPA {
         this.phone = patient.phone();
         this.cpf = patient.cpf();
         this.address = new AddressJPA(patient.address());
+        this.active = true;
 
     }
 
