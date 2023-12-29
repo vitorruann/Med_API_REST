@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.domain.schedule.AppointmentSchedule;
 import med.voll.api.domain.schedule.NewScheduleDTO;
@@ -22,9 +24,10 @@ public class ScheduleController {
     
     @PostMapping
     @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<ScheduleDTO> storeSchedule(@RequestBody @Valid NewScheduleDTO schedule) {
 
-        var dto =appointmentSchedule.schedule(schedule);
+        var dto = appointmentSchedule.schedule(schedule);
 
         return ResponseEntity.ok(dto);
     }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
 import med.voll.api.domain.ValidationExepition;
-import med.voll.api.domain.schedule.validations.ValidatorSchedule;
 
 @RestControllerAdvice
 public class ErrorHandler {

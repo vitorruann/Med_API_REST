@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.domain.doctor.*;
 
@@ -21,6 +23,7 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<DoctorDTO> storeDoctor(@RequestBody @Valid NewDoctorDTO doctor, UriComponentsBuilder uriBuilder) {
         var newDoctor = new DoctorJPA(doctor);
         repository.save(newDoctor);
@@ -31,6 +34,7 @@ public class DoctorController {
     }
 
     @GetMapping
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Page<ShowDoctorDTO>> showDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
         var page = repository.findAllByActiveTrue(pageable).map(ShowDoctorDTO::new);
         
@@ -38,6 +42,7 @@ public class DoctorController {
     }
 
     @GetMapping("/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<DoctorDTO> showDoctorById(@PathVariable Long id) {
         var doctor = repository.getReferenceById(id);
 
@@ -46,6 +51,7 @@ public class DoctorController {
 
     @PutMapping
     @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<DoctorDTO> updateDoctor(@RequestBody @Valid UpdateDoctorDTO doctor) {
         var updatedDoctor = repository.getReferenceById(doctor.id());
         updatedDoctor.update(doctor);
@@ -55,6 +61,7 @@ public class DoctorController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<String> destroyDoctor(@PathVariable Long id) {
         var doctor = repository.getReferenceById(id);
         doctor.delete();
